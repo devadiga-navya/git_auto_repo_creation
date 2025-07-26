@@ -1,0 +1,21 @@
+# GitHub Configuration
+GITHUB_TOKEN=your_github_personal_access_token_here
+GITHUB_ORG_NAME=your-organization-name
+TEMPLATE_REPO_NAME=hackathon_template
+
+# Excel Configuration
+EXCEL_FILE_PATH=teams_data.xlsx
+TEAM_NAME_COLUMN=team_name
+LEADER_EMAIL_COLUMN=leader_email
+
+# Repository Configuration
+REPO_PREFIX=hackathon-
+REPO_DESCRIPTION=Hackathon project repository
+REPO_VISIBILITY=private
+
+# User Permission Configuration
+DEFAULT_PERMISSION=push
+
+# Error Handling
+MAX_RETRIES=3
+RETRY_DELAY=5 
