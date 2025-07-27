@@ -22,6 +22,10 @@ REPO_VISIBILITY = os.getenv('REPO_VISIBILITY', 'private')  # 'private' or 'publi
 # User Permission Configuration
 DEFAULT_PERMISSION = os.getenv('DEFAULT_PERMISSION', 'push')  # 'pull', 'push', 'admin', 'maintain', 'triage'
 
+# Git Configuration (for commit authorship)
+SCRIPT_GIT_USER_NAME = os.getenv('SCRIPT_GIT_USER_NAME', 'Hackathon Organizer')
+SCRIPT_GIT_USER_EMAIL = os.getenv('SCRIPT_GIT_USER_EMAIL', 'organizer@hackathon.com')
+
 # Error Handling
 MAX_RETRIES = int(os.getenv('MAX_RETRIES', '3'))
 RETRY_DELAY = int(os.getenv('RETRY_DELAY', '5'))  # seconds 

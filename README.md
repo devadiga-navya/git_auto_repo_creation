@@ -1,200 +1,141 @@
 # GitHub Repository Creator for Hackathon Teams
 
-This Python script automates the creation of GitHub repositories for hackathon teams using a template repository and adds team leaders to their respective repositories based on data from an Excel file.
+A simple and reliable Python script to create GitHub repositories for hackathon teams and add team leaders as collaborators.
 
-## Features
+## 🚀 Quick Start
 
-- 🔗 Connects to GitHub organization using personal access token
-- 📁 Creates repositories from a template repository
-- 👥 Adds team leaders to their respective repositories
-- 📊 Reads team data from Excel file
-- 📝 Comprehensive logging and error handling
-- ⚙️ Configurable settings via environment variables
-
-## Prerequisites
-
-1. **Python 3.7+** installed on your system
-2. **GitHub Personal Access Token** with organization permissions
-3. **Template repository** in your GitHub organization
-4. **Excel file** with team data
-
-## Installation
-
-1. Clone or download this repository
-2. Install required dependencies:
-
+### 1. **Install Dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-## Setup
-
-### 1. GitHub Token Setup
-
-Create a GitHub Personal Access Token:
-1. Go to GitHub Settings → Developer settings → Personal access tokens
-2. Generate a new token with the following permissions:
-   - `repo` (Full control of private repositories)
-   - `admin:org` (Full control of organizations and teams)
-   - `user` (Update user profile)
-
-### 2. Environment Configuration
-
-Create a `.env` file in the project root with your configuration:
-
+### 2. **Configure Environment**
 ```bash
 # Copy the example file
 cp env_example.txt .env
+
+# Edit .env with your settings
+# GITHUB_TOKEN=your_github_token
+# GITHUB_ORG_NAME=your-organization-name
+# TEMPLATE_REPO_NAME=your-template-repo
 ```
 
-Edit the `.env` file with your actual values:
-
-```env
-# GitHub Configuration
-GITHUB_TOKEN=your_actual_github_token_here
-GITHUB_ORG_NAME=your-organization-name
-TEMPLATE_REPO_NAME=hackathon_template
-
-# Excel Configuration
-EXCEL_FILE_PATH=teams_data.xlsx
-TEAM_NAME_COLUMN=team_name
-LEADER_EMAIL_COLUMN=leader_email
-
-# Repository Configuration
-REPO_PREFIX=hackathon-
-REPO_DESCRIPTION=Hackathon project repository
-REPO_VISIBILITY=private
-
-# User Permission Configuration
-DEFAULT_PERMISSION=push
-```
-
-### 3. Prepare Team Data
-
-Create an Excel file (`teams_data.xlsx`) with the following structure:
-
+### 3. **Prepare Team Data**
+Create `teams_data.xlsx` with this structure:
 | team_name | leader_email |
 |-----------|--------------|
-| Team Alpha | alpha@example.com |
-| Team Beta | beta@example.com |
-| Team Gamma | gamma@example.com |
+| Team Alpha | devadiga-navya |
+| Team Beta | another-user |
 
-Or use the helper script to create a sample file:
-
+### 4. **Run the Script**
 ```bash
-python create_sample_excel.py
+python simple_repo_creator.py
 ```
 
-### 4. Template Repository
+## 📁 Repository Structure
 
-Ensure you have a template repository in your GitHub organization:
-- Repository should be named as specified in `TEMPLATE_REPO_NAME`
-- Repository should be marked as a template repository in GitHub settings
-
-## Usage
-
-### Basic Usage
-
-Run the main script:
-
-```bash
-python github_repo_creator.py
+```
+git_auto_repo_creation/
+├── simple_repo_creator.py    # Main script (recommended)
+├── quick_setup.py           # Alternative with org membership
+├── add_users_manually.py    # Manual user addition tool
+├── get_github_usernames.py  # Username helper tool
+├── config.py                # Configuration settings
+├── requirements.txt         # Python dependencies
+├── env_example.txt         # Environment variables template
+├── .gitignore              # Git ignore rules
+├── README.md               # This file
+└── teams_data.xlsx         # Your team data (not in repo)
 ```
 
-### Create Sample Data
+## 🛠️ Available Scripts
 
-Generate a sample Excel file for testing:
+| Script | Purpose | When to Use |
+|--------|---------|-------------|
+| `simple_repo_creator.py` | **Main script** - Creates repos and adds users | **Recommended for most cases** |
+| `quick_setup.py` | Alternative with organization membership | If you need org membership too |
+| `add_users_manually.py` | Manual user addition | For troubleshooting |
+| `get_github_usernames.py` | Username helper | To create username templates |
 
-```bash
-python create_sample_excel.py
+## ⚙️ Configuration
+
+### Environment Variables (.env file)
+```env
+# Required
+GITHUB_TOKEN=your_github_personal_access_token
+GITHUB_ORG_NAME=your-organization-name
+TEMPLATE_REPO_NAME=your-template-repo
+
+# Optional
+REPO_PREFIX=hackathon-
+REPO_VISIBILITY=private
+DEFAULT_PERMISSION=push
+SCRIPT_GIT_USER_NAME=Hackathon Organizer
+SCRIPT_GIT_USER_EMAIL=organizer@hackathon.com
 ```
 
-## Configuration Options
+### Excel File Format
+- **team_name**: Team name (used for repository naming)
+- **leader_email**: GitHub username of team leader
 
-### Environment Variables
+## 🎯 What the Script Does
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `GITHUB_TOKEN` | GitHub Personal Access Token | Required |
-| `GITHUB_ORG_NAME` | GitHub organization name | Required |
-| `TEMPLATE_REPO_NAME` | Template repository name | `hackathon_template` |
-| `EXCEL_FILE_PATH` | Path to Excel file | `teams_data.xlsx` |
-| `TEAM_NAME_COLUMN` | Excel column name for team names | `team_name` |
-| `LEADER_EMAIL_COLUMN` | Excel column name for leader emails | `leader_email` |
-| `REPO_PREFIX` | Prefix for created repositories | `hackathon-` |
-| `REPO_DESCRIPTION` | Description for created repositories | `Hackathon project repository` |
-| `REPO_VISIBILITY` | Repository visibility (`private`/`public`) | `private` |
-| `DEFAULT_PERMISSION` | Permission level for added users | `push` |
+1. **Creates repositories** from template (or empty if template fails)
+2. **Adds team leaders** as repository collaborators with push permissions
+3. **Handles errors gracefully** and provides clear feedback
+4. **Uses custom Git user** to avoid showing your name in commits
 
-### Permission Levels
-
-- `pull`: Can pull (read) but not push (write)
-- `push`: Can pull and push (read and write)
-- `admin`: Can pull, push and administer the repository
-- `maintain`: Can manage the repository without access to sensitive or destructive actions
-- `triage`: Can manage issues and pull requests without write access
-
-## Output
-
-The script provides:
-
-- **Console output**: Real-time progress and status messages
-- **Log file**: Detailed logs saved to `github_repo_creator.log`
-- **Repository creation**: New repositories created from template
-- **User invitations**: Team leaders added to their repositories
-
-## Error Handling
-
-The script includes comprehensive error handling:
-
-- **Rate limiting**: Automatic delays between API calls
-- **Duplicate repositories**: Skips existing repositories
-- **Invalid users**: Logs warnings for users not found
-- **Network errors**: Retries with exponential backoff
-- **Validation**: Checks for required files and permissions
-
-## Troubleshooting
+## 🔧 Troubleshooting
 
 ### Common Issues
 
-1. **"GitHub token is required"**
-   - Ensure your `.env` file contains a valid `GITHUB_TOKEN`
+1. **"Template repository not found"**
+   - Ensure your template repository exists and is named correctly
+   - Check the `TEMPLATE_REPO_NAME` in your `.env` file
 
-2. **"Template repository not found"**
-   - Verify the template repository exists and is named correctly
-   - Check that the repository is marked as a template
+2. **"User not found"**
+   - Use GitHub usernames instead of emails
+   - Verify the username exists on GitHub
 
-3. **"Excel file not found"**
-   - Ensure the Excel file exists at the specified path
-   - Check the `EXCEL_FILE_PATH` configuration
+3. **"Permission denied"**
+   - Check your GitHub token has organization permissions
+   - Ensure you have admin access to the organization
 
-4. **"Could not find GitHub user"**
-   - Verify the email addresses in your Excel file
-   - Ensure users have public GitHub profiles or are organization members
+### Debug Steps
+```bash
+# Test your setup
+python get_github_usernames.py
 
-5. **"Permission denied"**
-   - Check that your GitHub token has sufficient permissions
-   - Verify you have admin access to the organization
+# Run the main script
+python simple_repo_creator.py
 
-### Debug Mode
-
-For detailed debugging, you can modify the logging level in `github_repo_creator.py`:
-
-```python
-logging.basicConfig(level=logging.DEBUG, ...)
+# Manual addition if needed
+python add_users_manually.py
 ```
 
-## Security Notes
+## 🔒 Security Notes
 
-- Never commit your `.env` file to version control
+- Never commit your `.env` file
 - Use environment variables for sensitive data
-- Regularly rotate your GitHub personal access token
-- Grant minimum required permissions to the token
+- Regularly rotate your GitHub token
+- Grant minimum required permissions
 
-## Contributing
+## 📝 Output
 
-Feel free to submit issues and enhancement requests!
+The script provides:
+- **Console output**: Real-time progress and status
+- **Log file**: Detailed logs saved to `simple_repo_creator.log`
+- **Repository creation**: New repositories created from template
+- **User invitations**: Team leaders added as collaborators
 
-## License
+## 🎉 Success Example
+
+```
+✅ Simple repository creation completed successfully!
+🎉 Repositories created and users added!
+📝 Note: Users were not added to the organization (use manual invitation if needed)
+```
+
+## 📄 License
 
 This project is open source and available under the MIT License.

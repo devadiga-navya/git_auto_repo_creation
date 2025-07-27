@@ -16,6 +16,10 @@ REPO_VISIBILITY=private
 # User Permission Configuration
 DEFAULT_PERMISSION=push
 
+# Git Configuration (for commit authorship)
+SCRIPT_GIT_USER_NAME=Hackathon Organizer
+SCRIPT_GIT_USER_EMAIL=organizer@hackathon.com
+
 # Error Handling
 MAX_RETRIES=3
 RETRY_DELAY=5 
